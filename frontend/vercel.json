@@ -1,0 +1,19 @@
+# Vercel配置文件
+
+# Vercel会自动识别这些配置
+
+{
+  "buildCommand": "",
+  "outputDirectory": "",
+  "framework": null,
+  "installCommand": "",
+  "devCommand": "",
+  "regions": ["hkg1"],
+  "functions": {},
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
