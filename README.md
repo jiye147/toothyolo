@@ -215,11 +215,9 @@ toothyolo/
 
 本项目仅供学习和研究使用，不得用于商业用途。
 
-## 联系方式
+## 开源协议
 
-- 邮箱: contact@toothyolo.com
-- 电话: 400-888-8888
-- 网站: http://localhost:3000
+本项目采用 MIT 许可证，详见 [LICENSE](LICENSE) 文件。
 
 ---
 
