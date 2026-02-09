@@ -174,7 +174,7 @@ function initCounterAnimation() {
                 stat.textContent = displayValue + '+';
             } else if (hasLessThan) {
                 stat.textContent = '<' + displayValue + suffix;
-            } else {
+            } else if (!isNaN(numericValue)) {
                 stat.textContent = displayValue;
             }
         }, duration / 40);
