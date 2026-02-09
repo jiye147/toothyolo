@@ -1,0 +1,396 @@
+:root {
+    --primary-white: #ffffff;
+    --primary-light: #f8fafc;
+    --primary-gray: #f1f5f9;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --text-muted: #94a3b8;
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-green: #10b981;
+    --accent-orange: #f59e0b;
+    --accent-red: #ef4444;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --shadow-strong: 0 12px 40px rgba(0, 0, 0, 0.15);
+    --border-light: #e5e7eb;
+    --border-medium: #d1d5db;
+    --gradient-white: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+    --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    --gradient-purple: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+    --gradient-green: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+body {
+    background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+}
+
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: var(--shadow-soft);
+}
+
+.logo {
+    background: var(--gradient-white);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: var(--text-primary);
+}
+
+.hero {
+    background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 50%, #e2e8f0 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.hero-title {
+    background: linear-gradient(135deg, #1e293b 0%, #475569 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border-light);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--accent-blue);
+}
+
+.stat-icon {
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.process-steps {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--border-light);
+    border-radius: 2rem;
+    box-shadow: var(--shadow-medium);
+}
+
+.step-number {
+    background: var(--gradient-blue);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--border-light);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--accent-blue);
+}
+
+.feature-icon {
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.diseases-section {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border: 1px solid var(--border-light);
+    border-radius: 2rem;
+    box-shadow: var(--shadow-medium);
+}
+
+.disease-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--border-light);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.disease-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transition: left 0.6s ease;
+}
+
+.disease-card:hover::before {
+    left: 100%;
+}
+
+.disease-card:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: var(--shadow-strong);
+    border-color: var(--accent-blue);
+}
+
+.disease-icon {
+    background: var(--gradient-white);
+    border: 2px solid var(--border-light);
+    box-shadow: var(--shadow-soft);
+}
+
+.upload-area {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px dashed var(--border-medium);
+    border-radius: 2rem;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.upload-area:hover {
+    border-color: var(--accent-blue);
+    background: rgba(59, 130, 246, 0.05);
+    transform: scale(1.01);
+    box-shadow: var(--shadow-medium);
+}
+
+.preview-area {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--border-light);
+    border-radius: 2rem;
+    box-shadow: var(--shadow-strong);
+}
+
+.result-item {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border-light);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s ease;
+}
+
+.result-item:hover {
+    transform: translateX(8px);
+    box-shadow: var(--shadow-medium);
+}
+
+.history-item {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border-light);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.history-item:hover {
+    transform: translateX(8px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--accent-blue);
+}
+
+.about-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid var(--border-light);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.about-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--accent-blue);
+}
+
+.about-icon {
+    background: var(--gradient-blue);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.btn {
+    border: none;
+    border-radius: 1rem;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-soft);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-medium);
+}
+
+.btn-primary {
+    background: var(--gradient-blue);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--text-primary);
+    border: 2px solid var(--border-light);
+}
+
+.btn-secondary:hover {
+    background: var(--primary-light);
+    border-color: var(--accent-blue);
+}
+
+.btn-danger {
+    background: var(--gradient-purple);
+    color: white;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--border-medium);
+    color: var(--text-primary);
+}
+
+.btn-outline:hover {
+    background: var(--accent-blue);
+    border-color: var(--accent-blue);
+    color: white;
+}
+
+.settings-panel {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    border-left: 1px solid var(--border-light);
+    box-shadow: var(--shadow-strong);
+}
+
+.modal-overlay {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid var(--border-light);
+    border-radius: 2rem;
+    box-shadow: var(--shadow-strong);
+}
+
+.disease-detail {
+    background: var(--primary-light);
+    border: 1px solid var(--border-light);
+    border-radius: 1.5rem;
+    border-left: 4px solid var(--accent-blue);
+}
+
+.treatment-card {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(16, 185, 129, 0.03));
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 1.5rem;
+}
+
+.chart-bar-fill {
+    background: var(--gradient-blue);
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.toggle-switch {
+    background: var(--border-medium);
+    transition: all 0.3s ease;
+}
+
+.toggle-switch.active {
+    background: var(--gradient-blue);
+}
+
+.toggle-switch::after {
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.range-slider {
+    background: var(--border-light);
+    border-radius: 4px;
+}
+
+.range-slider::-webkit-slider-thumb {
+    background: var(--gradient-blue);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.theme-option {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--border-light);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+.theme-option:hover {
+    border-color: var(--accent-blue);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-soft);
+}
+
+.theme-option.active {
+    border-color: var(--accent-blue);
+    background: rgba(59, 130, 246, 0.1);
+    box-shadow: var(--shadow-medium);
+}
+
+.footer {
+    background: rgba(255, 255, 255, 0.98);
+    border-top: 1px solid var(--border-light);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.particle {
+    background: rgba(59, 130, 246, 0.15);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .stat-card,
+    .feature-card,
+    .disease-card {
+        border-radius: 1.25rem;
+    }
+}

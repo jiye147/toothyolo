@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>牙齿疾病智能检测系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/advanced.css">
+    <link rel="stylesheet" href="css/premium.css">
+    <link rel="stylesheet" href="css/symmetrical.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/shortcuts.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-tooth logo-icon"></i>
+                <span class="logo-text">智能齿检</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="#image-detection" class="nav-link"><i class="fas fa-image"></i> 图片检测</a></li>
+                <li><a href="#video-detection" class="nav-link"><i class="fas fa-video"></i> 视频检测</a></li>
+                <li><a href="#history" class="nav-link"><i class="fas fa-history"></i> 历史记录</a></li>
+                <li><a href="#about" class="nav-link"><i class="fas fa-info-circle"></i> 关于</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <button class="settings-toggle-btn" id="settings-toggle-btn">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="particles-container" id="particles-container"></div>
+
+    <div class="settings-panel" id="settings-panel">
+        <div class="settings-header">
+            <h3><i class="fas fa-cog"></i> 系统设置</h3>
+            <button class="modal-close" id="close-settings">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="settings-body">
+            <div class="setting-item">
+                <label class="setting-label">显示检测标注</label>
+                <p class="setting-description">在图片上显示检测框和标签</p>
+                <div class="setting-control">
+                    <div class="toggle-switch active" id="toggle-annotations-setting">
+                    </div>
+                </div>
+            </div>
+            <div class="setting-item">
+                <label class="setting-label">置信度阈值</label>
+                <p class="setting-description">设置检测的最小置信度（25% - 100%）</p>
+                <div class="setting-control">
+                    <input type="range" class="range-slider" id="confidence-threshold" min="25" max="100" value="25">
+                    <span id="confidence-value">25%</span>
+                </div>
+            </div>
+            <div class="setting-item">
+                <label class="setting-label">主题颜色</label>
+                <p class="setting-description">选择您喜欢的界面主题</p>
+                <div class="theme-selector">
+                    <div class="theme-option active" data-theme="blue">
+                        <i class="fas fa-palette" style="color: #3b82f6;"></i>
+                        <span>蓝色</span>
+                    </div>
+                    <div class="theme-option" data-theme="green">
+                        <i class="fas fa-palette" style="color: #10b981;"></i>
+                        <span>绿色</span>
+                    </div>
+                    <div class="theme-option" data-theme="purple">
+                        <i class="fas fa-palette" style="color: #8b5cf6;"></i>
+                        <span>紫色</span>
+                    </div>
+                </div>
+            </div>
+            <div class="setting-item">
+                <label class="setting-label">动画效果</label>
+                <p class="setting-description">启用或禁用界面动画</p>
+                <div class="setting-control">
+                    <div class="toggle-switch active" id="toggle-animations">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="shortcuts-toggle" id="shortcuts-toggle" title="快捷键帮助">
+        <i class="fas fa-keyboard"></i>
+    </button>
+
+    <div class="shortcuts-help hidden" id="shortcuts-help">
+        <div class="shortcuts-header">
+            <h3 class="shortcuts-title">
+                <i class="fas fa-keyboard"></i> 快捷键帮助
+            </h3>
+            <button class="shortcuts-close" id="close-shortcuts">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="shortcuts-section">
+            <div class="shortcuts-section-title">导航快捷键</div>
+            <div class="shortcuts-list">
+                <div class="shortcut-item">
+                    <div class="shortcut-keys">
+                        <span class="shortcut-key modifier">Ctrl</span>
+                        <span class="shortcut-key">I</span>
+                    </div>
+                    <span class="shortcut-description">跳转到图片检测</span>
+                </div>
+                <div class="shortcut-item">
+                    <div class="shortcut-keys">
+                        <span class="shortcut-key modifier">Ctrl</span>
+                        <span class="shortcut-key">V</span>
+                    </div>
+                    <span class="shortcut-description">跳转到视频检测</span>
+                </div>
+                <div class="shortcut-item">
+                    <div class="shortcut-keys">
+                        <span class="shortcut-key modifier">Ctrl</span>
+                        <span class="shortcut-key">H</span>
+                    </div>
+                    <span class="shortcut-description">跳转到历史记录</span>
+                </div>
+                <div class="shortcut-item">
+                    <div class="shortcut-keys">
+                        <span class="shortcut-key modifier">Ctrl</span>
+                        <span class="shortcut-key">A</span>
+                    </div>
+                    <span class="shortcut-description">跳转到关于页面</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="shortcuts-section">
+            <div class="shortcuts-section-title">操作快捷键</div>
+            <div class="shortcuts-list">
+                <div class="shortcut-item">
+                    <div class="shortcut-keys">
+                        <span class="shortcut-key modifier">Ctrl</span>
+                        <span class="shortcut-key">S</span>
+                    </div>
+                    <span class="shortcut-description">打开/关闭设置面板</span>
+                </div>
+                <div class="shortcut-item">
+                    <div class="shortcut-keys">
+                        <span class="shortcut-key modifier">Ctrl</span>
+                        <span class="shortcut-key">R</span>
+                    </div>
+                    <span class="shortcut-description">重置检测（图片检测）</span>
+                </div>
+                <div class="shortcut-item">
+                    <div class="shortcut-keys">
+                        <span class="shortcut-key modifier">Ctrl</span>
+                        <span class="shortcut-key">D</span>
+                    </div>
+                    <span class="shortcut-description">下载检测结果</span>
+                </div>
+                <div class="shortcut-item">
+                    <div class="shortcut-keys">
+                        <span class="shortcut-key">Enter</span>
+                    </div>
+                    <span class="shortcut-description">上传文件（图片检测）</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="shortcuts-section">
+            <div class="shortcuts-section-title">通用快捷键</div>
+            <div class="shortcuts-list">
+                <div class="shortcut-item">
+                    <div class="shortcut-keys">
+                        <span class="shortcut-key">Esc</span>
+                    </div>
+                    <span class="shortcut-description">关闭所有弹窗</span>
+                </div>
+                <div class="shortcut-item">
+                    <div class="shortcut-keys">
+                        <span class="shortcut-key">Delete</span>
+                    </div>
+                    <span class="shortcut-description">清空历史记录</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="disease-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="modal-header">
+                <h2 class="modal-title" id="modal-title">疾病详情</h2>
+                <p class="modal-subtitle" id="modal-subtitle">详细信息</p>
+            </div>
+            <div class="modal-body" id="modal-body">
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <section id="home" class="hero section active">
+            <div class="hero-background"></div>
+            <div class="container">
+                <div class="premium-header">
+                    <h1 class="premium-title">智能牙齿疾病检测系统</h1>
+                    <p class="premium-subtitle">基于YOLO深度学习技术，快速、精准地识别牙齿疾病</p>
+                </div>
+
+                <div class="premium-stats">
+                    <div class="premium-stat">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="premium-stat-value">95%+</div>
+                        <div class="premium-stat-label">检测准确率</div>
+                    </div>
+                    <div class="premium-stat">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="premium-stat-value"><1s</div>
+                        <div class="premium-stat-label">响应时间</div>
+                    </div>
+                    <div class="premium-stat">
+                        <div class="premium-stat-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="premium-stat-value">100,000+</div>
+                        <div class="premium-stat-label">累计检测</div>
+                    </div>
+                </div>
+
+                <div class="centered-actions">
+                    <a href="#image-detection" class="premium-button btn-primary">
+                        <i class="fas fa-search"></i> 开始检测
+                    </a>
+                    <a href="#about" class="premium-button btn-secondary">
+                        <i class="fas fa-book"></i> 了解更多
+                    </a>
+                </div>
+
+                <div class="symmetrical-features">
+                    <div class="feature-pair">
+                        <div class="elegant-card">
+                            <div class="elegant-icon">
+                                <i class="fas fa-brain"></i>
+                            </div>
+                            <h3 class="elegant-title">AI智能分析</h3>
+                            <p class="elegant-description">先进的YOLO模型，深度学习算法，精准识别牙齿疾病</p>
+                        </div>
+                        <div class="elegant-card">
+                            <div class="elegant-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3 class="elegant-title">安全可靠</h3>
+                            <p class="elegant-description">本地化处理，数据不上传云端，保护您的隐私安全</p>
+                        </div>
+                    </div>
+                    <div class="feature-pair">
+                        <div class="elegant-card">
+                            <div class="elegant-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3 class="elegant-title">多端支持</h3>
+                            <p class="elegant-description">支持电脑、手机、平板等多种设备，随时随地检测</p>
+                        </div>
+                        <div class="elegant-card">
+                            <div class="elegant-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <h3 class="elegant-title">实时反馈</h3>
+                            <p class="elegant-description">毫秒级检测速度，即时返回分析结果</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="symmetrical-diseases">
+                    <div class="disease-premium-card" onclick="showDiseaseDetail('龋齿')">
+                        <div class="disease-premium-icon">
+                            <i class="fas fa-tooth"></i>
+                        </div>
+                        <h3 class="disease-premium-title">龋齿</h3>
+                        <p class="disease-premium-desc">牙齿表面出现黑色或棕色斑点，是最常见的口腔疾病之一</p>
+                        <div class="disease-premium-stats">
+                            <div class="disease-premium-stat">
+                                <div class="disease-premium-stat-value">95%+</div>
+                                <div class="disease-premium-stat-label">检测准确率</div>
+                            </div>
+                            <div class="disease-premium-stat">
+                                <div class="disease-premium-stat-value">高</div>
+                                <div class="disease-premium-stat-label">发病率</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="disease-premium-card" onclick="showDiseaseDetail('牙周炎')">
+                        <div class="disease-premium-icon">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <h3 class="disease-premium-title">牙周炎</h3>
+                        <p class="disease-premium-desc">牙龈红肿、出血，可能伴有口臭和牙齿松动</p>
+                        <div class="disease-premium-stats">
+                            <div class="disease-premium-stat">
+                                <div class="disease-premium-stat-value">92%+</div>
+                                <div class="disease-premium-stat-label">检测准确率</div>
+                            </div>
+                            <div class="disease-premium-stat">
+                                <div class="disease-premium-stat-value">较高</div>
+                                <div class="disease-premium-stat-label">发病率</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="disease-premium-card" onclick="showDiseaseDetail('牙结石')">
+                        <div class="disease-premium-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h3 class="disease-premium-title">牙结石</h3>
+                        <p class="disease-premium-desc">牙齿表面形成黄色或棕色硬质沉积物</p>
+                        <div class="disease-premium-stats">
+                            <div class="disease-premium-stat">
+                                <div class="disease-premium-stat-value">98%+</div>
+                                <div class="disease-premium-stat-label">检测准确率</div>
+                            </div>
+                            <div class="disease-premium-stat">
+                                <div class="disease-premium-stat-value">常见</div>
+                                <div class="disease-premium-stat-label">发病率</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="image-detection" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-image"></i> 图片检测
+                    </h2>
+                    <p class="section-subtitle">上传牙齿图片，快速识别疾病类型</p>
+                </div>
+                
+                <div class="detection-container">
+                    <div class="upload-area" id="image-upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p class="upload-text">点击或拖拽图片到此处上传</p>
+                        <p class="upload-hint">支持 JPG、PNG、JPEG 格式，最大 10MB</p>
+                        <input type="file" id="image-input" accept="image/*" hidden>
+                    </div>
+                    
+                    <div class="preview-area" id="image-preview-area" style="display: none;">
+                        <div class="preview-header">
+                            <h3><i class="fas fa-search"></i> 检测结果</h3>
+                            <div class="preview-actions">
+                                <button class="btn btn-small btn-outline" id="toggle-annotations">
+                                    <i class="fas fa-eye"></i> 显示标注
+                                </button>
+                                <button class="btn btn-small btn-secondary" id="download-result">
+                                    <i class="fas fa-download"></i> 下载
+                                </button>
+                                <button class="btn btn-small btn-danger" id="clear-image">
+                                    <i class="fas fa-times"></i> 清除
+                                </button>
+                            </div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="image-wrapper">
+                                <canvas id="image-canvas"></canvas>
+                                <img id="preview-image" src="" alt="预览图片">
+                            </div>
+                            <div class="results-panel" id="image-results"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="video-detection" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-video"></i> 视频检测
+                    </h2>
+                    <p class="section-subtitle">上传视频文件，实时检测牙齿疾病</p>
+                </div>
+                
+                <div class="detection-container">
+                    <div class="upload-area" id="video-upload-area">
+                        <div class="upload-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <p class="upload-text">点击或拖拽视频到此处上传</p>
+                        <p class="upload-hint">支持 MP4、AVI、MOV 格式，最大 100MB</p>
+                        <input type="file" id="video-input" accept="video/*" hidden>
+                    </div>
+                    
+                    <div class="preview-area" id="video-preview-area" style="display: none;">
+                        <div class="preview-header">
+                            <h3><i class="fas fa-play-circle"></i> 实时检测</h3>
+                            <div class="preview-actions">
+                                <button class="btn btn-small btn-danger" id="clear-video">
+                                    <i class="fas fa-stop"></i> 停止
+                                </button>
+                            </div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="video-wrapper">
+                                <img id="video-stream" src="" alt="视频流">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="history" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-history"></i> 历史记录
+                    </h2>
+                    <p class="section-subtitle">查看您的检测历史记录</p>
+                </div>
+                
+                <div class="history-container">
+                    <div class="history-empty" id="history-empty">
+                        <i class="fas fa-inbox"></i>
+                        <p>暂无检测记录</p>
+                    </div>
+                    <div class="history-list" id="history-list"></div>
+                    <button class="btn btn-danger btn-block" id="clear-history" style="display: none;">
+                        <i class="fas fa-trash"></i> 清空历史
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i> 关于系统
+                    </h2>
+                    <p class="section-subtitle">了解我们的技术和使命</p>
+                </div>
+                
+                <div class="about-content">
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>系统介绍</h3>
+                        <p>本系统采用先进的YOLO（You Only Look Once）深度学习算法，专门针对牙齿疾病进行训练和优化。系统能够快速、准确地识别多种牙齿疾病，包括龋齿、牙周炎、牙结石等常见口腔问题。</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h3>技术特点</h3>
+                        <ul>
+                            <li><i class="fas fa-check"></i> 基于Ultralytics YOLO v8模型</li>
+                            <li><i class="fas fa-check"></i> 支持图片和视频实时检测</li>
+                            <li><i class="fas fa-check"></i> RESTful API接口设计</li>
+                            <li><i class="fas fa-check"></i> 响应式Web界面</li>
+                            <li><i class="fas fa-check"></i> 本地化处理，保护隐私</li>
+                        </ul>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <i class="fas fa-list-ol"></i>
+                        </div>
+                        <h3>使用说明</h3>
+                        <ol>
+                            <li><i class="fas fa-arrow-right"></i> 选择检测类型（图片或视频）</li>
+                            <li><i class="fas fa-arrow-right"></i> 上传待检测的文件</li>
+                            <li><i class="fas fa-arrow-right"></i> 等待系统分析处理</li>
+                            <li><i class="fas fa-arrow-right"></i> 查看检测结果和建议</li>
+                        </ol>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <h3>注意事项</h3>
+                        <ul>
+                            <li><i class="fas fa-exclamation-circle"></i> 本系统仅供学习和研究使用</li>
+                            <li><i class="fas fa-exclamation-circle"></i> 检测结果仅供参考</li>
+                            <li><i class="fas fa-exclamation-circle"></i> 不能替代专业医生的诊断</li>
+                            <li><i class="fas fa-exclamation-circle"></i> 如有牙齿健康问题，请及时就医</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4><i class="fas fa-tooth"></i> 智能齿检</h4>
+                    <p>基于AI的牙齿疾病智能检测系统</p>
+                </div>
+                <div class="footer-section">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="#home">首页</a></li>
+                        <li><a href="#image-detection">图片检测</a></li>
+                        <li><a href="#video-detection">视频检测</a></li>
+                        <li><a href="#about">关于</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-envelope"></i> contact@toothyolo.com</p>
+                    <p><i class="fas fa-phone"></i> 400-888-8888</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 牙齿疾病智能检测系统. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/advanced.js"></script>
+    <script src="js/animations.js"></script>
+</body>
+</html>
