@@ -24,6 +24,7 @@ class YOLOService:
         if self.model is None:
             try:
                 self.model = YOLO(self.model_path)
+                self.model.fuse()
                 print(f"YOLO模型加载成功: {self.model_path}")
             except Exception as e:
                 print(f"YOLO模型加载失败: {e}")
@@ -43,7 +44,7 @@ class YOLOService:
             if image is None:
                 raise Exception("无法读取图片")
             
-            results = self.model(image, conf=conf_threshold, verbose=False)
+            results = self.model(image, conf=conf_threshold, verbose=False, imgsz=640)
             detections = []
             
             for result in results:
@@ -60,6 +61,7 @@ class YOLOService:
                         "bbox": bbox
                     })
             
+            del results
             return detections
         except Exception as e:
             print(f"图像检测失败: {e}")
@@ -72,7 +74,7 @@ class YOLOService:
                 raise Exception("YOLO模型未加载")
         
         try:
-            results = self.model(frame, conf=conf_threshold, verbose=False)
+            results = self.model(frame, conf=conf_threshold, verbose=False, imgsz=640)
             detections = []
             
             for result in results:
@@ -89,6 +91,7 @@ class YOLOService:
                         "bbox": bbox
                     })
             
+            del results
             return detections
         except Exception as e:
             print(f"帧检测失败: {e}")
