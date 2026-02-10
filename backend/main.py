@@ -9,7 +9,7 @@ import cv2
 import numpy as np
 from pathlib import Path
 import tempfile
-
+import time
 from services.yolo_service import YOLOService
 
 app = FastAPI(
@@ -29,7 +29,9 @@ app.add_middleware(
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
 
-MODEL_PATH = "best.pt"
+MODEL_PATH = os.getenv("MODEL_PATH", "best.pt")
+CONFIDENCE_THRESHOLD = float(os.getenv("CONFIDENCE_THRESHOLD", "0.25"))
+MAX_UPLOAD_SIZE = int(os.getenv("MAX_UPLOAD_SIZE", "10485760"))
 
 yolo_service = YOLOService(MODEL_PATH)
 
@@ -43,6 +45,7 @@ class ImageDetectionResponse(BaseModel):
     detections: List[DetectionResult]
     image_path: Optional[str] = None
     message: Optional[str] = None
+    process_time: Optional[str] = None
 
 @app.get("/")
 async def root():
@@ -54,21 +57,35 @@ async def health_check():
 
 @app.post("/detect/image", response_model=ImageDetectionResponse)
 async def detect_image(file: UploadFile = File(...)):
+    start_time = time.time()
+    
     try:
+        if file.size > MAX_UPLOAD_SIZE:
+            return ImageDetectionResponse(
+                success=False,
+                detections=[],
+                message=f"文件大小超过限制 ({MAX_UPLOAD_SIZE} 字节)"
+            )
+        
         file_path = UPLOAD_DIR / file.filename
         
         with open(file_path, "wb") as buffer:
             content = await file.read()
             buffer.write(content)
         
-        detections = yolo_service.detect_image(str(file_path))
+        detections = yolo_service.detect_image(str(file_path), CONFIDENCE_THRESHOLD)
+        
+        process_time = time.time() - start_time
+        print(f"图片检测完成: {len(detections)}个目标, 耗时: {process_time:.2f}秒")
         
         return ImageDetectionResponse(
             success=True,
             detections=detections,
-            image_path=str(file_path)
+            image_path=str(file_path),
+            process_time=f"{process_time:.2f}s"
         )
     except Exception as e:
+        print(f"图片检测错误: {str(e)}")
         return ImageDetectionResponse(
             success=False,
             detections=[],
