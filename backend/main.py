@@ -37,7 +37,13 @@ MODEL_PATH = os.getenv("MODEL_PATH", "best.pt")
 CONFIDENCE_THRESHOLD = float(os.getenv("CONFIDENCE_THRESHOLD", "0.25"))
 MAX_UPLOAD_SIZE = int(os.getenv("MAX_UPLOAD_SIZE", "10485760"))
 
-yolo_service = YOLOService(MODEL_PATH)
+yolo_service = None
+
+def get_yolo_service():
+    global yolo_service
+    if yolo_service is None:
+        yolo_service = YOLOService(MODEL_PATH)
+    return yolo_service
 
 class DetectionResult(BaseModel):
     class_name: str
@@ -57,7 +63,11 @@ async def root():
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy", "model_loaded": yolo_service.is_loaded()}
+    try:
+        service = get_yolo_service()
+        return {"status": "healthy", "model_loaded": service.is_loaded()}
+    except Exception as e:
+        return {"status": "healthy", "model_loaded": False, "error": str(e)}
 
 @app.post("/detect/image", response_model=ImageDetectionResponse)
 async def detect_image(file: UploadFile = File(...)):
@@ -77,7 +87,8 @@ async def detect_image(file: UploadFile = File(...)):
             content = await file.read()
             buffer.write(content)
         
-        detections = yolo_service.detect_image(str(file_path), CONFIDENCE_THRESHOLD)
+        service = get_yolo_service()
+        detections = service.detect_image(str(file_path), CONFIDENCE_THRESHOLD)
         
         process_time = time.time() - start_time
         print(f"图片检测完成: {len(detections)}个目标, 耗时: {process_time:.2f}秒")
@@ -111,7 +122,8 @@ async def detect_video(file: UploadFile = File(...)):
                 if not ret:
                     break
                 
-                detections = yolo_service.detect_frame(frame)
+                service = get_yolo_service()
+                detections = service.detect_frame(frame)
                 
                 for det in detections:
                     bbox = det["bbox"]
