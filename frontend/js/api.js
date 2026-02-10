@@ -1,9 +1,17 @@
 const API_BASE_URL = 'https://toothyolo-backend.onrender.com';
+const API_TIMEOUT = 300000; // 5分钟超时（第一次加载模型需要时间）
 
 class ToothDetectionAPI {
     async checkHealth() {
         try {
-            const response = await fetch(`${API_BASE_URL}/health`);
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+            
+            const response = await fetch(`${API_BASE_URL}/health`, {
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
             return await response.json();
         } catch (error) {
             console.error('健康检查失败:', error);
@@ -16,10 +24,16 @@ class ToothDetectionAPI {
         formData.append('file', file);
 
         try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+            
             const response = await fetch(`${API_BASE_URL}/detect/image`, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                signal: controller.signal
             });
+            
+            clearTimeout(timeoutId);
             return await response.json();
         } catch (error) {
             console.error('图片检测失败:', error);
@@ -32,10 +46,16 @@ class ToothDetectionAPI {
         formData.append('file', file);
 
         try {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), API_TIMEOUT);
+            
             const response = await fetch(`${API_BASE_URL}/detect/video`, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                signal: controller.signal
             });
+            
+            clearTimeout(timeoutId);
             return response;
         } catch (error) {
             console.error('视频检测失败:', error);
