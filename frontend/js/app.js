@@ -367,7 +367,11 @@ function initImageDetection() {
                     <div style="text-align: center; padding: 2rem; color: #ef4444;">
                         <i class="fas fa-exclamation-circle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
                         <p>检测失败: ${error.message || '网络错误'}</p>
-                        <p style="font-size: 0.875rem; color: var(--text-light); margin-top: 1rem;">请检查后端服务是否正常运行</p>
+                        <p style="font-size: 0.875rem; color: var(--text-light); margin-top: 1rem;">
+                            ${error.message && error.message.includes('Failed to fetch') ? 
+                                '检测时间较长，请耐心等待（首次检测需要1-2分钟）<br>如果多次失败，请稍后重试' : 
+                                '请检查后端服务是否正常运行'}
+                        </p>
                     </div>
                 `;
                 Toast.show('检测失败，请重试', 'error');
