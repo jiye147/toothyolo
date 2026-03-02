@@ -75,3 +75,8 @@ frontend/
 - 支持的图片格式：JPG, PNG, JPEG
 - 支持的视频格式：MP4, AVI, MOV
 - 建议使用现代浏览器以获得最佳体验
+
+## 在线访问
+
+- 前端: https://toothyolo.vercel.app
+- 后端API: https://toothyolo-backend.onrender.com
